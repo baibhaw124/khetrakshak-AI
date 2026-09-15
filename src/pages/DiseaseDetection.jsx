@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function DiseaseDetection() {
   const [image, setImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState(null);
 
@@ -11,33 +12,94 @@ function DiseaseDetection() {
     if (!file) return;
 
     const imageUrl = URL.createObjectURL(file);
+
     setImage(imageUrl);
+    setSelectedFile(file);
     setResult(null);
   };
 
-  const analyzeImage = () => {
-    if (!image) return;
+  const analyzeImage = async () => {
+    if (!selectedFile) return;
+
+    const file = selectedFile;
 
     setAnalyzing(true);
+    setResult(null);
 
-    // Demo AI analysis
-    setTimeout(() => {
+    try {
+      const formData = new FormData();
+
+      formData.append("file", file);
+
+      const API_URL = import.meta.env.VITE_API_URL;
+
+      if (!API_URL) {
+        throw new Error("VITE_API_URL is not configured");
+      }
+
+      const response = await fetch(
+        `${API_URL}/disease/analyze`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      ); 
+
+      if (!response.ok) {
+        let errorMessage = "Disease analysis failed.";
+
+        try {
+          const errorData = await response.json();
+
+          if (errorData?.detail) {
+            errorMessage =
+              typeof errorData.detail === "string"
+                ? errorData.detail
+                : "The backend rejected the image.";
+          }
+        } catch {
+          // Backend did not return JSON
+        }
+
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+
+      if (data.status === "rejected") {
+    setResult({
+      rejected: true,
+      message:
+        data.message ||
+        "Please upload a clear image of a plant leaf.",
+      confidence: Number(data.confidence ?? 0),
+    });
+
+    return;
+  }
+
       setResult({
-        disease: "Leaf Blight",
-        confidence: 94,
-        risk: "High",
-        severity: "Severe",
-        crop: "Tomato",
-        recommendation: [
-          "Remove severely affected leaves",
-          "Avoid excess moisture on foliage",
-          "Monitor nearby plants",
-          "Consult an agricultural expert if symptoms spread",
-        ],
+        rejected: false,
+        disease: data.disease,
+        confidence: data.confidence,
+        risk: data.risk,
+        crop: data.crop,
+        severity: data.severity,
+        symptoms: data.symptoms,
+        recommendation: data.recommendations || [],
+        prevention: data.prevention || [],
       });
+    } catch (error) {
+      console.error("Disease analysis error:", error);
 
+      alert(
+        error?.message ||
+        "Unable to connect to the Khetrakshak AI backend."
+      );
+
+    } finally {
       setAnalyzing(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -208,9 +270,41 @@ function DiseaseDetection() {
               </div>
 
             </div>
-          ) : (
+         ) : result.rejected ? (
 
-            <div className="mt-5 space-y-5">
+          <div className="flex min-h-[400px] items-center justify-center text-center">
+            <div>
+
+              <div className="text-6xl">
+                🌿
+              </div>
+
+              <h3 className="mt-5 text-xl font-bold text-orange-600">
+                Image Not Recognized as a Leaf
+              </h3>
+
+              <p className="mt-2 text-sm text-gray-500">
+                {result.message}
+              </p>
+
+              {result.confidence > 0 && (
+                <div className="mt-4 inline-block rounded-full bg-orange-50 px-4 py-2 text-sm font-medium text-orange-700">
+                  Validation Confidence: {result.confidence}%
+                </div>
+              )}
+
+              <p className="mt-4 text-sm text-gray-400">
+                Please upload a clear image of a plant leaf.
+              </p>
+
+            </div>
+          </div>
+
+        ) : (
+
+          <div className="mt-5 space-y-5">
+
+              {/* KEEP EVERYTHING FROM HERE EXACTLY AS IT IS */}
 
               {/* Disease */}
               <div className="rounded-xl bg-red-50 p-5">
