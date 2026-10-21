@@ -1,6 +1,9 @@
+import { useLanguage } from "../LanguageContext";
 import { useState } from "react";
 
 function DiseaseDetection() {
+  const { language } = useLanguage();
+  const hi = language === "hi";
   const [image, setImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
@@ -34,7 +37,7 @@ function DiseaseDetection() {
       const API_URL = import.meta.env.VITE_API_URL;
 
       if (!API_URL) {
-        throw new Error("VITE_API_URL is not configured");
+        throw new Error(hi ? "VITE_API_URL कॉन्फ़िगर नहीं है।" : "VITE_API_URL is not configured");
       }
 
       const response = await fetch(
@@ -43,10 +46,10 @@ function DiseaseDetection() {
           method: "POST",
           body: formData,
         }
-      ); 
+      );
 
       if (!response.ok) {
-        let errorMessage = "Disease analysis failed.";
+        let errorMessage = hi ? "फसल की जाँच विफल रही।" : "Disease analysis failed.";
 
         try {
           const errorData = await response.json();
@@ -55,7 +58,7 @@ function DiseaseDetection() {
             errorMessage =
               typeof errorData.detail === "string"
                 ? errorData.detail
-                : "The backend rejected the image.";
+                : hi ? "सर्वर इस तस्वीर को स्वीकार नहीं कर पाया।" : "The backend rejected the image.";
           }
         } catch {
           // Backend did not return JSON
@@ -67,16 +70,16 @@ function DiseaseDetection() {
       const data = await response.json();
 
       if (data.status === "rejected") {
-    setResult({
-      rejected: true,
-      message:
-        data.message ||
-        "Please upload a clear image of a plant leaf.",
-      confidence: Number(data.confidence ?? 0),
-    });
+        setResult({
+          rejected: true,
+          message:
+            data.message ||
+              hi ? "कृपया पौधे की पत्ती की साफ़ तस्वीर अपलोड करें।" : "Please upload a clear image of a plant leaf.",
+          confidence: Number(data.confidence ?? 0),
+        });
 
-    return;
-  }
+        return;
+      }
 
       setResult({
         rejected: false,
@@ -94,7 +97,7 @@ function DiseaseDetection() {
 
       alert(
         error?.message ||
-        "Unable to connect to the Khetrakshak AI backend."
+          hi ? "खेत रक्षक AI सर्वर से संपर्क नहीं हो पाया।" : "Unable to connect to the Khetrakshak AI backend."
       );
 
     } finally {
@@ -106,13 +109,16 @@ function DiseaseDetection() {
     <div className="space-y-6">
 
       {/* Page Header */}
+      {/* Page Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800">
-          Disease Detection
+          {hi ? "फसल में रोग की पहचान" : "Disease Detection"}
         </h1>
 
         <p className="mt-1 text-gray-500">
-          AI-powered crop disease identification from plant images
+          {hi
+            ? "पौधे की तस्वीर से फसल में संभावित रोग की पहचान करें।"
+            : "AI-powered crop disease identification from plant images"}
         </p>
       </div>
 
@@ -123,11 +129,11 @@ function DiseaseDetection() {
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
           <h2 className="text-lg font-semibold text-gray-800">
-            Upload Crop Image
+            {hi ? "फसल की तस्वीर चुनें" : "Upload Crop Image"}
           </h2>
 
           <p className="mt-1 text-sm text-gray-500">
-            Upload a clear image of the affected crop or leaf.
+            {hi ? "प्रभावित फसल या पत्ती की साफ़ तस्वीर अपलोड करें।" : "Upload a clear image of the affected crop or leaf."}
           </p>
 
           {/* Image Preview */}
@@ -150,11 +156,11 @@ function DiseaseDetection() {
 
                 {/* Text */}
                 <h3 className="mt-5 text-lg font-semibold text-[#075E35]">
-                  AI Analyzing
+                  {hi ? "AI जाँच कर रहा है" : "AI Analyzing"}
                 </h3>
 
                 <p className="mt-1 text-sm text-gray-500">
-                  Scanning crop image for possible diseases...
+                  {hi ? "तस्वीर में संभावित रोगों की जाँच की जा रही है..." : "Scanning crop image for possible diseases..."}
                 </p>
 
                 {/* Loading dots */}
@@ -180,7 +186,7 @@ function DiseaseDetection() {
 
               <img
                 src={image}
-                alt="Uploaded crop"
+                alt={hi ? "अपलोड की गई फसल की तस्वीर" : "Uploaded crop"}
                 className="h-72 w-full rounded-xl object-contain"
               />
 
@@ -193,11 +199,11 @@ function DiseaseDetection() {
                 </div>
 
                 <p className="mt-3 font-medium text-gray-700">
-                  Upload a crop image
+                  {hi ? "फसल की तस्वीर अपलोड करें" : "Upload a crop image"}
                 </p>
 
                 <p className="mt-1 text-sm text-gray-400">
-                  JPG, PNG or JPEG
+                  {hi ? "JPG, PNG या JPEG फ़ाइल" : "JPG, PNG or JPEG"}
                 </p>
 
               </div>
@@ -215,7 +221,7 @@ function DiseaseDetection() {
                 : "cursor-pointer bg-green-700 hover:bg-green-800"
                 }`}
             >
-              Choose Image
+              {hi ? "तस्वीर चुनें" : "Choose Image"}
               <input
                 type="file"
                 accept="image/*"
@@ -232,14 +238,11 @@ function DiseaseDetection() {
             >
               {analyzing ? (
                 <span className="flex items-center justify-center gap-2">
-
                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-emerald-700 border-t-transparent"></span>
-
-                  Analyzing...
-
+                  {hi ? "जाँच जारी है..." : "Analyzing..."}
                 </span>
               ) : (
-                "Analyze Crop"
+                hi ? "जाँच शुरू करें" : "Analyze Crop"
               )}
             </button>
           </div>
@@ -250,7 +253,7 @@ function DiseaseDetection() {
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
           <h2 className="text-lg font-semibold text-gray-800">
-            Analysis Result
+            {hi ? "जाँच का परिणाम" : "Analysis Result"}
           </h2>
 
           {!result ? (
@@ -260,49 +263,51 @@ function DiseaseDetection() {
                 <div className="text-5xl">🔬</div>
 
                 <p className="mt-4 font-medium text-gray-700">
-                  No analysis available
+                  {hi ? "अभी कोई परिणाम नहीं है" : "No analysis available"}
                 </p>
 
                 <p className="mt-1 max-w-sm text-sm text-gray-400">
-                  Upload a crop image and click Analyze Crop
-                  to view the AI-based disease assessment.
+                  {hi
+                    ? "पहले पत्ती का चित्र चुनें और फिर “जाँच शुरू करें” पर दबाएँ"
+                    : "Choose a leaf image, then click Analyze Crop"}
+                  {hi ? "ताकि AI से रोग की जाँच का परिणाम देख सकें।" : "to view the AI-based disease assessment."}
                 </p>
               </div>
 
             </div>
-         ) : result.rejected ? (
+          ) : result.rejected ? (
 
-          <div className="flex min-h-[400px] items-center justify-center text-center">
-            <div>
+            <div className="flex min-h-[400px] items-center justify-center text-center">
+              <div>
 
-              <div className="text-6xl">
-                🌿
-              </div>
-
-              <h3 className="mt-5 text-xl font-bold text-orange-600">
-                Image Not Recognized as a Leaf
-              </h3>
-
-              <p className="mt-2 text-sm text-gray-500">
-                {result.message}
-              </p>
-
-              {result.confidence > 0 && (
-                <div className="mt-4 inline-block rounded-full bg-orange-50 px-4 py-2 text-sm font-medium text-orange-700">
-                  Validation Confidence: {result.confidence}%
+                <div className="text-6xl">
+                  🌿
                 </div>
-              )}
 
-              <p className="mt-4 text-sm text-gray-400">
-                Please upload a clear image of a plant leaf.
-              </p>
+                <h3 className="mt-5 text-xl font-bold text-orange-600">
+                  {hi ? "यह पत्ती की तस्वीर नहीं लगती" : "Image Not Recognized as a Leaf"}
+                </h3>
 
+                <p className="mt-2 text-sm text-gray-500">
+                  {result.message}
+                </p>
+
+                {result.confidence > 0 && (
+                  <div className="mt-4 inline-block rounded-full bg-orange-50 px-4 py-2 text-sm font-medium text-orange-700">
+                    {hi ? "पहचान का विश्वास स्तर:" : "Validation Confidence:"} {result.confidence}%
+                  </div>
+                )}
+
+                <p className="mt-4 text-sm text-gray-400">
+                  {hi ? "कृपया पौधे की पत्ती की साफ़ तस्वीर अपलोड करें।" : "Please upload a clear image of a plant leaf."}
+                </p>
+
+              </div>
             </div>
-          </div>
 
-        ) : (
+          ) : (
 
-          <div className="mt-5 space-y-5">
+            <div className="mt-5 space-y-5">
 
               {/* KEEP EVERYTHING FROM HERE EXACTLY AS IT IS */}
 
@@ -313,7 +318,7 @@ function DiseaseDetection() {
 
                   <div>
                     <p className="text-sm text-gray-500">
-                      Detected Disease
+                      {hi ? "पहचाना गया रोग" : "Detected Disease"}
                     </p>
 
                     <h3 className="mt-1 text-2xl font-bold text-red-700">
@@ -321,23 +326,23 @@ function DiseaseDetection() {
                     </h3>
 
                     <p className="mt-1 text-sm text-gray-500">
-                      Crop: {result.crop}
+                      {hi ? "फसल:" : "Crop:"} {result.crop}
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
 
                       <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-600">
-                        Crop: {result.crop}
+                        {hi ? "फसल:" : "Crop:"} {result.crop}
                       </span>
 
                       <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
-                        Severity: {result.severity}
+                        {hi ? "गंभीरता:" : "Severity:"} {result.severity}
                       </span>
 
                     </div>
                   </div>
 
                   <div className="rounded-full bg-red-100 px-4 py-2 text-sm font-bold text-red-700">
-                    {result.risk} Risk
+                    {hi ? (result.risk === "High" ? "उच्च जोखिम" : result.risk === "Medium" ? "मध्यम जोखिम" : "कम जोखिम") : `${result.risk} Risk`}
                   </div>
 
                 </div>
@@ -349,11 +354,11 @@ function DiseaseDetection() {
 
                 <div>
                   <p className="text-sm font-semibold text-gray-700">
-                    AI Detection Confidence
+                   {hi ? "AI पहचान का विश्वास स्तर" : "AI Detection Confidence"}
                   </p>
 
                   <p className="text-xs text-gray-400 mt-0.5">
-                    Model confidence for detected condition
+                    {hi ? "पहचानी गई स्थिति के लिए मॉडल का विश्वास स्तर" : "Model confidence for detected condition"}
                   </p>
                 </div>
 
@@ -379,11 +384,11 @@ function DiseaseDetection() {
 
                 <div>
                   <p className="text-sm font-semibold text-green-800">
-                    AI Analysis Complete
+                    {hi ? "AI जाँच पूरी हुई" : "AI Analysis Complete"}
                   </p>
 
                   <p className="text-xs text-green-700 mt-0.5">
-                    Crop image successfully analyzed.
+                    {hi ? "फसल की तस्वीर की सफलतापूर्वक जाँच की गई।" : "Crop image successfully analyzed."}
                   </p>
                 </div>
 
@@ -393,7 +398,7 @@ function DiseaseDetection() {
               <div>
 
                 <h3 className="font-semibold text-gray-800">
-                  Recommended Action
+                  {hi ? "सुझाए गए कदम" : "Recommended Action"}
                 </h3>
 
                 <div className="mt-3 space-y-2">
@@ -423,18 +428,18 @@ function DiseaseDetection() {
 
       </div>
 
-      {/* Recent Analyses */}
+      {/* {hi ? "हाल की जाँचें" : "Recent Analyses"} */}
       <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 
         <div className="flex items-center justify-between">
 
           <div>
             <h2 className="text-lg font-semibold text-gray-800">
-              Recent Analyses
+              {hi ? "हाल की जाँचें" : "Recent Analyses"}
             </h2>
 
             <p className="text-sm text-gray-500">
-              Previously analyzed crop samples
+              {hi ? "पहले जाँची गई फसलों के नमूने" : "Previously analyzed crop samples"}
             </p>
           </div>
 
@@ -446,38 +451,38 @@ function DiseaseDetection() {
 
             <thead>
               <tr className="border-b text-sm text-gray-500">
-                <th className="px-4 py-3">Crop</th>
-                <th className="px-4 py-3">Detection</th>
-                <th className="px-4 py-3">Confidence</th>
-                <th className="px-4 py-3">Risk</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">{hi ? "फसल" : "Crop"}</th>
+                <th className="px-4 py-3">{hi ? "रोग की पहचान" : "Detection"}</th>
+                <th className="px-4 py-3">{hi ? "विश्वास स्तर" : "Confidence"}</th>
+                <th className="px-4 py-3">{hi ? "जोखिम" : "Risk"}</th>
+                <th className="px-4 py-3">{hi ? "स्थिति" : "Status"}</th>
               </tr>
             </thead>
 
             <tbody>
 
               <tr className="border-b">
-                <td className="px-4 py-4 font-medium">Tomato</td>
-                <td className="px-4 py-4">Leaf Blight</td>
+                <td className="px-4 py-4 font-medium">{hi ? "टमाटर" : "Tomato"}</td>
+                <td className="px-4 py-4">{hi ? "पत्ती झुलसा रोग" : "Leaf Blight"}</td>
                 <td className="px-4 py-4">94%</td>
-                <td className="px-4 py-4 text-red-600">High</td>
-                <td className="px-4 py-4 text-gray-500">Reviewed</td>
+                <td className="px-4 py-4 text-red-600">{hi ? "उच्च" : "High"}</td>
+                <td className="px-4 py-4 text-gray-500">{hi ? "जाँचा गया" : "Reviewed"}</td>
               </tr>
 
               <tr className="border-b">
-                <td className="px-4 py-4 font-medium">Wheat</td>
-                <td className="px-4 py-4">Healthy</td>
+                <td className="px-4 py-4 font-medium">{hi ? "गेहूँ" : "Wheat"}</td>
+                <td className="px-4 py-4">{hi ? "स्वस्थ" : "Healthy"}</td>
                 <td className="px-4 py-4">97%</td>
-                <td className="px-4 py-4 text-green-600">Low</td>
-                <td className="px-4 py-4 text-gray-500">Healthy</td>
+                <td className="px-4 py-4 text-green-600">{hi ? "कम" : "Low"}</td>
+                <td className="px-4 py-4 text-gray-500">{hi ? "स्वस्थ" : "Healthy"}</td>
               </tr>
 
               <tr>
-                <td className="px-4 py-4 font-medium">Rice</td>
-                <td className="px-4 py-4">Brown Spot</td>
+                <td className="px-4 py-4 font-medium">{hi ? "धान" : "Rice"}</td>
+                <td className="px-4 py-4">{hi ? "भूरे धब्बे का रोग" : "Brown Spot"}</td>
                 <td className="px-4 py-4">91%</td>
-                <td className="px-4 py-4 text-orange-600">Medium</td>
-                <td className="px-4 py-4 text-gray-500">Reviewed</td>
+                <td className="px-4 py-4 text-orange-600">{hi ? "मध्यम" : "Medium"}</td>
+                <td className="px-4 py-4 text-gray-500">{hi ? "जाँचा गया" : "Reviewed"}</td>
               </tr>
 
             </tbody>
@@ -491,5 +496,4 @@ function DiseaseDetection() {
     </div >
   );
 }
-
 export default DiseaseDetection;

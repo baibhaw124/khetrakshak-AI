@@ -1,6 +1,7 @@
 import RiskMap from "../components/RiskMap";
 import RecentAlerts from "../components/RecentAlerts";
 import CropHealthStatus from "../components/CropHealthStatus";
+import { useLanguage } from "../LanguageContext";
 import {
   PieChart,
   Pie,
@@ -15,49 +16,51 @@ import {
   CartesianGrid,
 } from "recharts";
 function Dashboard() {
+  const { language } = useLanguage();
+  const hi = language === "hi";
   const stats = [
     {
-      title: "Total Reports",
+      title: (hi ? "कुल रिपोर्ट" : "Total Reports"),
       value: "12,458",
       change: "+12.5%",
-      description: "from last month",
+      description: (hi ? "पिछले महीने से" : "from last month"),
       icon: "▣",
     },
     {
-      title: "High Risk Zones",
+      title: (hi ? "उच्च जोखिम वाले क्षेत्र" : "High Risk Zones"),
       value: "58",
       change: "+8",
-      description: "this week",
+      description: (hi ? "इस सप्ताह" : "this week"),
       icon: "⚠",
       danger: true,
     },
     {
-      title: "Active Alerts",
+      title: (hi ? "सक्रिय चेतावनियाँ" : "Active Alerts"),
       value: "218",
       change: "+24",
-      description: "requiring attention",
+      description: (hi ? "ध्यान देने की आवश्यकता" : "requiring attention"),
       icon: "!",
       warning: true,
     },
     {
-      title: "Crops Monitored",
+      title: (hi ? "निगरानी में फसलें" : "Crops Monitored"),
       value: "32",
       change: "+4",
-      description: "crop varieties",
+      description: (hi ? "फसल की किस्में" : "crop varieties"),
       icon: "✦",
     },
   ];
   const riskData = [
-    { name: "Low Risk", value: 62 },
-    { name: "Moderate Risk", value: 25 },
-    { name: "High Risk", value: 13 },
+    { name: (hi ? "कम जोखिम" : "Low Risk"), value: 62 },
+    { name: (hi ? "मध्यम जोखिम" : "Moderate Risk"), value: 25 },
+    { name: (hi ? "उच्च जोखिम" : "High Risk"), value: 13 },
   ];
 
   const diseaseData = [
-    { name: "Leaf Blight", cases: 38 },
-    { name: "Stem Borer", cases: 24 },
-    { name: "Crop Rust", cases: 18 },
-    { name: "Powdery Mildew", cases: 12 },
+    { name: (hi ? "पत्ती झुलसा रोग" : "Leaf Blight"), cases: 38 },
+    { name: (hi ? "तना छेदक" : "Stem Borer"), cases: 24 },
+    { name: (hi ? "फसल का रतुआ" : "Crop Rust"), cases: 18 },
+    { name: (hi ? "चूर्णिल आसिता" : "Powdery Mildew"), cases: 12 },
   ];
 
 
@@ -67,11 +70,11 @@ function Dashboard() {
       {/* Page Heading */}
       <div>
         <h1 className="text-2xl md:text-3xl font-bold text-[#063B25]">
-          Dashboard
+          {hi ? "डैशबोर्ड" : "Dashboard"}
         </h1>
 
         <p className="text-sm text-gray-500 mt-1">
-          Overview of crop health, disease detection and agricultural risk.
+          {hi ? "फसल स्वास्थ्य, रोग पहचान और कृषि जोखिम का संक्षिप्त विवरण।" : "Overview of crop health, disease detection and agricultural risk."}
         </p>
       </div>
 
@@ -148,16 +151,15 @@ function Dashboard() {
         <div className="max-w-2xl">
 
           <p className="text-sm text-green-200 font-medium">
-            Khetrakshak AI Intelligence
+            {hi ? "खेतरक्षक AI जानकारी" : "Khetrakshak AI Intelligence"}
           </p>
 
           <h2 className="text-xl md:text-2xl font-bold mt-1">
-            Detect Early. Predict Risk. Protect Crops.
+            {hi ? "समय पर पहचानें। जोखिम समझें। फसल बचाएँ।" : "Detect Early. Predict Risk. Protect Crops."}
           </h2>
 
           <p className="text-sm text-green-100 mt-2 leading-relaxed">
-            Monitor crop health, identify potential diseases and assess
-            agricultural risks using AI-powered insights and field data.
+            {hi ? "फसल के स्वास्थ्य पर नज़र रखें, संभावित रोगों की पहचान करें और AI आधारित जानकारी व खेत के आँकड़ों से कृषि जोखिम का आकलन करें।" : "Monitor crop health, identify potential diseases and assess agricultural risks using AI-powered insights and field data."}
           </p>
 
         </div>
@@ -173,16 +175,16 @@ function Dashboard() {
 
             <div>
               <h2 className="text-lg font-semibold text-gray-800">
-                Risk Overview
+                {hi ? "जोखिम का विवरण" : "Risk Overview"}
               </h2>
 
               <p className="text-sm text-gray-500 mt-1">
-                Current agricultural risk distribution
+                {hi ? "वर्तमान कृषि जोखिम का वितरण" : "Current agricultural risk distribution"}
               </p>
             </div>
 
             <span className="text-xs font-medium px-3 py-1 rounded-full bg-green-50 text-green-700">
-              Current
+              {hi ? "वर्तमान" : "Current"}
             </span>
 
           </div>
@@ -237,16 +239,16 @@ function Dashboard() {
 
             <div>
               <h2 className="text-lg font-semibold text-gray-800">
-                Disease Distribution
+                {hi ? "रोगों का वितरण" : "Disease Distribution"}
               </h2>
 
               <p className="text-sm text-gray-500 mt-1">
-                Frequently detected crop diseases
+                {hi ? "अक्सर पाए जाने वाले फसल रोग" : "Frequently detected crop diseases"}
               </p>
             </div>
 
             <span className="text-xs font-medium px-3 py-1 rounded-full bg-red-50 text-red-600">
-              AI Detection
+              {hi ? "AI रोग पहचान" : "AI Detection"}
             </span>
 
           </div>
@@ -308,11 +310,11 @@ function Dashboard() {
 
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-[#075E35]">
-            Technology Stack
+            {hi ? "तकनीकी ढाँचा" : "Technology Stack"}
           </h2>
 
           <p className="mt-1 text-sm text-gray-500">
-            Technologies powering Khetrakshak AI
+            {hi ? "खेतरक्षक AI को चलाने वाली तकनीकें" : "Technologies powering Khetrakshak AI"}
           </p>
         </div>
 
@@ -323,7 +325,7 @@ function Dashboard() {
             <span className="h-3 w-3 rounded-full bg-green-500"></span>
 
             <h3 className="font-semibold text-gray-800">
-              Currently Working
+              {hi ? "वर्तमान में कार्यरत" : "Currently Working"}
             </h3>
           </div>
 
@@ -336,7 +338,7 @@ function Dashboard() {
 
                 <div>
                   <p className="font-semibold text-gray-800">
-                    Frontend
+                    {hi ? "फ्रंटएंड" : "Frontend"}
                   </p>
 
                   <p className="mt-1 text-sm text-gray-600">
@@ -345,7 +347,7 @@ function Dashboard() {
                 </div>
 
                 <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-                  Working
+                  {hi ? "कार्यरत" : "Working"}
                 </span>
 
               </div>
@@ -364,7 +366,7 @@ function Dashboard() {
             <span className="h-3 w-3 rounded-full bg-orange-500"></span>
 
             <h3 className="font-semibold text-gray-800">
-              Coming Soon
+              {hi ? "आगे जोड़ा जाएगा" : "Coming Soon"}
             </h3>
 
           </div>
@@ -374,7 +376,7 @@ function Dashboard() {
             {/* Backend */}
             <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
               <p className="font-semibold text-gray-800">
-                Backend
+                {hi ? "बैकएंड" : "Backend"}
               </p>
 
               <p className="mt-1 text-sm text-gray-500">
@@ -396,7 +398,7 @@ function Dashboard() {
             {/* Database */}
             <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
               <p className="font-semibold text-gray-800">
-                Database
+                {hi ? "डेटाबेस" : "Database"}
               </p>
 
               <p className="mt-1 text-sm text-gray-500">
@@ -407,7 +409,7 @@ function Dashboard() {
             {/* Geospatial */}
             <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
               <p className="font-semibold text-gray-800">
-                Geospatial
+                {hi ? "भौगोलिक सूचना प्रणाली" : "Geospatial"}
               </p>
 
               <p className="mt-1 text-sm text-gray-500">
@@ -418,7 +420,7 @@ function Dashboard() {
             {/* Deployment */}
             <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
               <p className="font-semibold text-gray-800">
-                Deployment
+                {hi ? "परिनियोजन" : "Deployment"}
               </p>
 
               <p className="mt-1 text-sm text-gray-500">
@@ -429,7 +431,7 @@ function Dashboard() {
             {/* APIs */}
             <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
               <p className="font-semibold text-gray-800">
-                APIs & Integrations
+                {hi ? "API और एकीकरण" : "APIs & Integrations"}
               </p>
 
               <p className="mt-1 text-sm text-gray-500">
@@ -440,7 +442,7 @@ function Dashboard() {
             {/* IoT */}
             <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
               <p className="font-semibold text-gray-800">
-                IoT & Sensors
+                {hi ? "IoT और सेंसर" : "IoT & Sensors"}
               </p>
 
               <p className="mt-1 text-sm text-gray-500">
@@ -464,14 +466,11 @@ function Dashboard() {
             <div>
 
               <h3 className="font-semibold text-[#075E35]">
-                Building Towards an Integrated AI Agriculture Platform
+                {hi ? "एकीकृत AI कृषि मंच की दिशा में" : "Building Towards an Integrated AI Agriculture Platform"}
               </h3>
 
               <p className="mt-1 text-sm leading-6 text-gray-600">
-                Khetrakshak AI is being developed step-by-step,
-                integrating crop intelligence, AI/ML, weather data,
-                geospatial analysis and IoT-based field inputs into
-                a unified decision-support system.
+                {hi ? "खेतरक्षक AI को चरणबद्ध तरीके से विकसित किया जा रहा है। इसमें फसल संबंधी जानकारी, AI/ML, मौसम के आँकड़े, भौगोलिक विश्लेषण और IoT आधारित खेत की जानकारी को एक निर्णय-सहायक प्रणाली में जोड़ा जा रहा है।" : "Khetrakshak AI is being developed step-by-step, integrating crop intelligence, AI/ML, weather data, geospatial analysis and IoT-based field inputs into a unified decision-support system."}
               </p>
 
             </div>
@@ -488,23 +487,22 @@ function Dashboard() {
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-green-600">
-              Developed By
+              {hi ? "द्वारा विकसित" : "Developed By"}
             </p>
 
             <h2 className="mt-1 text-xl font-bold text-[#075E35]">
-              (Khetrakshak AI Team)
-              Baibhaw Upadhyay
+              {hi ? "(खेतरक्षक AI टीम) बैभव उपाध्याय" : "(Khetrakshak AI Team) Baibhaw Upadhyay"}
             </h2>
 
             <p className="mt-1 text-sm text-gray-500">
-              Smart Agricultural Intelligence & Decision Support Platform
+              {hi ? "स्मार्ट कृषि जानकारी और निर्णय-सहायक मंच" : "Smart Agricultural Intelligence & Decision Support Platform"}
             </p>
           </div>
 
           <div className="rounded-xl bg-green-50 px-5 py-3 text-center">
 
             <p className="text-xs text-gray-500">
-              Technology
+              {hi ? "तकनीक" : "Technology"}
             </p>
 
             <p className="mt-1 text-sm font-semibold text-[#075E35]">
@@ -515,9 +513,8 @@ function Dashboard() {
       </div>
       {/* Demo Data Disclaimer */}
       <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-xs text-gray-500">
-        <span className="font-semibold text-gray-600">Note:</span>{" "}
-        Dashboard metrics shown here use demonstration data for prototype
-        presentation purposes.
+        <span className="font-semibold text-gray-600">{hi ? "ध्यान दें:" : "Note:"}</span>{" "}
+        {hi ? "यहाँ डैशबोर्ड के आँकड़े प्रोटोटाइप प्रदर्शन के लिए उदाहरण के रूप में दिए गए हैं।" : "Dashboard metrics shown here use demonstration data for prototype presentation purposes."}
       </div>
       {/* Footer */}
       <footer className="border-t border-gray-200 pt-6 pb-2">
@@ -530,12 +527,12 @@ function Dashboard() {
             </p>
 
             <p className="mt-1 text-xs text-gray-400">
-              An agricultural intelligence
+              {hi ? "एक कृषि सूचना मंच" : "An agricultural intelligence"}
             </p>
           </div>
 
           <p className="text-xs text-gray-400">
-            © 2026 Khetrakshak AI.
+            {hi ? "© 2026 खेतरक्षक AI।" : "© 2026 Khetrakshak AI."}
           </p>
 
         </div>

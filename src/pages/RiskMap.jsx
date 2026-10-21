@@ -1,3 +1,4 @@
+import { useLanguage } from "../LanguageContext";
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -43,13 +44,15 @@ const getRiskColor = (risk) => {
 };
 
 function RiskMap() {
+  const { language } = useLanguage();
+  const hi = language === "hi";
   return (
     <div className="space-y-6">
 
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800">
-          Risk Map
+          {hi ? "जोखिम मानचित्र" : "Risk Map"}
         </h1>
 
         <p className="mt-1 text-gray-500">
@@ -61,7 +64,7 @@ function RiskMap() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
 
         <div className="rounded-2xl border border-red-100 bg-white p-5 shadow-sm">
-          <p className="text-sm text-gray-500">High Risk Zones</p>
+          <p className="text-sm text-gray-500">{hi ? "उच्च जोखिम वाले क्षेत्र" : "High Risk Zones"}</p>
           <h2 className="mt-2 text-3xl font-bold text-red-600">2</h2>
           <p className="mt-1 text-xs text-red-500">
             Immediate monitoring required
@@ -199,7 +202,7 @@ function RiskMap() {
             <thead>
               <tr className="border-b text-sm text-gray-500">
                 <th className="px-4 py-3">Zone</th>
-                <th className="px-4 py-3">Crop</th>
+                <th className="px-4 py-3">{hi ? "फसल" : "Crop"}</th>
                 <th className="px-4 py-3">Risk</th>
                 <th className="px-4 py-3">Detection</th>
                 <th className="px-4 py-3">Affected</th>

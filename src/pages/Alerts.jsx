@@ -1,3 +1,4 @@
+import { useLanguage } from "../LanguageContext";
 import { useState } from "react";
 
 const initialAlerts = [
@@ -48,6 +49,8 @@ const initialAlerts = [
 ];
 
 function Alerts() {
+  const { language } = useLanguage();
+  const hi = language === "hi";
   const [alerts, setAlerts] = useState(initialAlerts);
   const [filter, setFilter] = useState("All");
 

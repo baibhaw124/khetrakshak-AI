@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useLanguage } from "../LanguageContext";
 
 function FarmerAdvisory() {
   const [crop, setCrop] = useState("Tomato");
-  const [language, setLanguage] = useState("English");
+  const { language } = useLanguage();
+  const hi = language === "hi";
 
   const advisoryData = {
     Tomato: {
@@ -44,6 +46,28 @@ function FarmerAdvisory() {
 
   const data = advisoryData[crop];
 
+  const hiText = {
+    "Healthy": "स्वस्थ", "Excellent": "बहुत अच्छा", "Moderate": "मध्यम",
+    "Moderate irrigation recommended": "मध्यम सिंचाई की सलाह",
+    "Use balanced NPK fertilizer": "संतुलित NPK उर्वरक का उपयोग करें",
+    "Monitor for early signs of Leaf Blight": "पत्ती झुलसा रोग के शुरुआती लक्षणों पर नज़र रखें",
+    "Avoid irrigation before expected rainfall": "संभावित वर्षा से पहले सिंचाई न करें",
+    "Light irrigation recommended": "हल्की सिंचाई की सलाह",
+    "Nitrogen application may be beneficial": "नाइट्रोजन का उपयोग लाभकारी हो सकता है",
+    "Low disease risk": "रोग का जोखिम कम है",
+    "Weather conditions are suitable": "मौसम की स्थिति अनुकूल है",
+    "Maintain adequate field moisture": "खेत में पर्याप्त नमी बनाए रखें",
+    "Consider potassium-rich fertilizer": "पोटैशियम युक्त उर्वरक पर विचार करें",
+    "Monitor for Brown Spot": "ब्राउन स्पॉट रोग पर नज़र रखें",
+    "High humidity may increase disease risk": "अधिक आर्द्रता से रोग का जोखिम बढ़ सकता है",
+    "Maintain consistent soil moisture": "मिट्टी की नमी स्थिर बनाए रखें",
+    "Use potassium-rich fertilizer": "पोटैशियम युक्त उर्वरक का उपयोग करें",
+    "Monitor leaves for fungal infection": "पत्तियों में फफूंद संक्रमण के लक्षण देखें",
+    "Good growing conditions": "विकास के लिए अच्छी परिस्थितियाँ"
+  };
+  const tx = (value) => hi ? (hiText[value] || value) : value;
+
+
   return (
     <div className="space-y-6">
 
@@ -80,20 +104,13 @@ function FarmerAdvisory() {
               onChange={(e) => setCrop(e.target.value)}
               className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-green-600"
             >
-              <option>Tomato</option>
-              <option>Wheat</option>
-              <option>Rice</option>
-              <option>Potato</option>
+              <option value="Tomato"> {hi ? "टमाटर" : "Tomato"} </option>
+              <option value="Wheat"> {hi ? "गेहूँ" : "Wheat"} </option>
+              <option value="Rice"> {hi ? "धान" : "Rice"} </option>
+              <option value="Potato"> {hi ? "आलू" : "Potato"} </option>
             </select>
 
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-green-600"
-            >
-              <option>English</option>
-              <option>हिन्दी</option>
-            </select>
+
 
           </div>
 
@@ -121,11 +138,11 @@ function FarmerAdvisory() {
 
             <div>
               <h3 className="font-semibold text-green-700">
-                {data.status}
+                {tx(data.status)}
               </h3>
 
               <p className="mt-1 text-sm text-gray-500">
-                {crop} field
+                {crop} {hi ? "का खेत" : "field"}
               </p>
             </div>
 
@@ -202,7 +219,7 @@ function FarmerAdvisory() {
             </div>
 
             <p className="mt-3 text-sm leading-6 text-gray-600">
-              {data.irrigation}
+              {tx(data.irrigation)}
             </p>
 
           </div>
@@ -223,7 +240,7 @@ function FarmerAdvisory() {
             </div>
 
             <p className="mt-3 text-sm leading-6 text-gray-600">
-              {data.fertilizer}
+              {tx(data.fertilizer)}
             </p>
 
           </div>
@@ -244,7 +261,7 @@ function FarmerAdvisory() {
             </div>
 
             <p className="mt-3 text-sm leading-6 text-gray-600">
-              {data.disease}
+              {tx(data.disease)}
             </p>
 
           </div>
@@ -265,7 +282,7 @@ function FarmerAdvisory() {
             </div>
 
             <p className="mt-3 text-sm leading-6 text-gray-600">
-              {data.weather}
+              {tx(data.weather)}
             </p>
 
           </div>

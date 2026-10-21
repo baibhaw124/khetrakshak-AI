@@ -2,9 +2,12 @@ import Sidebar from "./sidebar";
 import Topbar from "./topbar";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import { useLanguage } from "../LanguageContext";
 
 function MainLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { language } = useLanguage();
+  const hi = language === "hi";
   return (
 
     <div className="min-h-screen bg-[#F8FAF8] flex">
@@ -24,7 +27,7 @@ function MainLayout({ children }) {
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex w-full items-center justify-between px-4 py-3 text-sm font-semibold text-gray-700"
           >
-            <span>☰ Navigation</span>
+            <span>{hi ? "☰ नेविगेशन" : "☰ Navigation"}</span>
 
             <span className={`transition-transform ${menuOpen ? "rotate-180" : ""}`}>
               ▼
@@ -38,7 +41,7 @@ function MainLayout({ children }) {
               <div className="space-y-1">
 
                 <NavLink
-                  to="/"
+                  to="/dashboard"
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
                     `block rounded-lg px-4 py-3 text-sm font-medium ${isActive
@@ -47,7 +50,7 @@ function MainLayout({ children }) {
                     }`
                   }
                 >
-                  🏠 Dashboard
+                  {hi ? "⌂ डैशबोर्ड" : "⌂ Dashboard"}
                 </NavLink>
 
                 <NavLink
@@ -60,7 +63,7 @@ function MainLayout({ children }) {
                     }`
                   }
                 >
-                  🌱 Crop Health
+                  {hi ? "🌱 फसल स्वास्थ्य" : "🌱 Crop Health"}
                 </NavLink>
 
                 <NavLink
@@ -73,7 +76,7 @@ function MainLayout({ children }) {
                     }`
                   }
                 >
-                  🔬 Disease Detection
+                  {hi ? "🔬 रोग पहचान" : "🔬 Disease Detection"}
                 </NavLink>
 
                 <NavLink
@@ -86,7 +89,7 @@ function MainLayout({ children }) {
                     }`
                   }
                 >
-                  🗺️ Risk Map
+                  {hi ? "🗺️ जोखिम मानचित्र" : "🗺️ Risk Map"}
                 </NavLink>
 
                 <NavLink
@@ -99,7 +102,7 @@ function MainLayout({ children }) {
                     }`
                   }
                 >
-                  ⚠️ Alerts
+                  {hi ? "⚠️ अलर्ट" : "⚠️ Alerts"}
                 </NavLink>
 
                 <NavLink
@@ -112,7 +115,7 @@ function MainLayout({ children }) {
                     }`
                   }
                 >
-                  💡 Farmer Advisory
+                  {hi ? "💡 किसान सलाह" : "💡 Farmer Advisory"}
                 </NavLink>
 
                 <NavLink
@@ -125,7 +128,7 @@ function MainLayout({ children }) {
                     }`
                   }
                 >
-                  📊 Analytics
+                  {hi ? "📊 विश्लेषण" : "📊 Analytics"}
                 </NavLink>
 
               </div>

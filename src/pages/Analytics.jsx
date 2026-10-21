@@ -1,6 +1,9 @@
+import { useLanguage } from "../LanguageContext";
 import { useState } from "react";
 
 function Analytics() {
+  const { language } = useLanguage();
+  const hi = language === "hi";
   const [crop, setCrop] = useState("Tomato");
   const [period, setPeriod] = useState("6 Weeks");
 
@@ -58,10 +61,10 @@ function Analytics() {
             onChange={(e) => setCrop(e.target.value)}
             className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-green-600"
           >
-            <option>Tomato</option>
-            <option>Wheat</option>
-            <option>Rice</option>
-            <option>Potato</option>
+            <option>{hi ? "टमाटर" : "Tomato"}</option>
+            <option>{hi ? "गेहूँ" : "Wheat"}</option>
+            <option>{hi ? "धान" : "Rice"}</option>
+            <option>{hi ? "आलू" : "Potato"}</option>
           </select>
 
           <select
@@ -389,14 +392,14 @@ function Analytics() {
               <tr className="border-b text-sm text-gray-500">
                 <th className="px-4 py-3">Metric</th>
                 <th className="px-4 py-3">Value</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">{hi ? "स्थिति" : "Status"}</th>
               </tr>
             </thead>
 
             <tbody>
 
               <tr className="border-b">
-                <td className="px-4 py-4">Crop Health</td>
+                <td className="px-4 py-4">{hi ? "फसल स्वास्थ्य" : "Crop Health"}</td>
                 <td className="px-4 py-4 font-semibold">
                   {data.health}%
                 </td>

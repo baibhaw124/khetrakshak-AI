@@ -1,15 +1,18 @@
 import { NavLink } from "react-router-dom";
+import { useLanguage } from "../LanguageContext";
 
 function Sidebar() {
+  const { language } = useLanguage();
+  const hi = language === "hi";
 
   const menuItems = [
-    { path: "/", icon: "⌂", label: "Dashboard" },
-    { path: "/crop-health", icon: "✦", label: "Crop Health" },
-    { path: "/disease-detection", icon: "⌁", label: "Disease Detection" },
-    { path: "/risk-map", icon: "◉", label: "Risk Map" },
-    { path: "/alerts", icon: "!", label: "Alerts" },
-    { path: "/farmer-advisory", icon: "✚", label: "Farmer Advisory" },
-    { path: "/analytics", icon: "▥", label: "Analytics" },
+    { path: "/dashboard", icon: "⌂", label: hi ? "डैशबोर्ड" : "Dashboard" },
+    { path: "/crop-health", icon: "✦", label: hi ? "फसल स्वास्थ्य" : "Crop Health" },
+    { path: "/disease-detection", icon: "⌁", label: hi ? "रोग पहचान" : "Disease Detection" },
+    { path: "/risk-map", icon: "◉", label: hi ? "जोखिम मानचित्र" : "Risk Map" },
+    { path: "/alerts", icon: "!", label: hi ? "अलर्ट" : "Alerts" },
+    { path: "/farmer-advisory", icon: "✚", label: hi ? "किसान सलाह" : "Farmer Advisory" },
+    { path: "/analytics", icon: "▥", label: hi ? "विश्लेषण" : "Analytics" },
   ];
 
   return (
@@ -21,19 +24,17 @@ function Sidebar() {
         <div className="flex items-center gap-3">
 
           <div className="w-11 h-11 rounded-xl bg-[#D9F99D] flex items-center justify-center">
-            <span className="text-[#075E35] text-xl font-bold">
-              K
-            </span>
+            <span className="text-[#075E35] text-2xl font-bold" aria-hidden="true">ख</span>
           </div>
 
           <div>
             <h1 className="text-xl font-bold tracking-tight">
-              Khetrakshak
+              {hi ? "खेत रक्षक" : "Khetrakshak"}
               <span className="text-lime-300"> AI</span>
             </h1>
 
             <p className="text-[11px] text-green-200 mt-1">
-              Crop Health Intelligence
+              {hi ? "फसल स्वास्थ्य · समझदार खेती" : "Crop Health Intelligence"}
             </p>
           </div>
 
@@ -46,7 +47,7 @@ function Sidebar() {
       <nav className="flex-1 px-4 py-6">
 
         <p className="px-3 mb-3 text-[10px] font-semibold tracking-widest text-green-300 uppercase">
-          Main Menu
+          {hi ? "मुख्य मेनू" : "Main Menu"}
         </p>
 
         <div className="space-y-1.5">
@@ -58,9 +59,9 @@ function Sidebar() {
               to={item.path}
               end={item.path === "/"}
               className={({ isActive }) =>
-                `block w-full rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive
-                  ? "bg-white text-[#075E35] shadow-sm"
-                  : "text-green-50 hover:bg-green-700"
+                `flex items-center gap-3 w-full rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive
+                  ? "bg-[#0B6842] text-white ring-1 ring-inset ring-[#69B98A]/35 shadow-sm"
+                  : "text-green-50 hover:bg-[#0A5235]"
                 }`
               }
             >
@@ -82,35 +83,15 @@ function Sidebar() {
       </nav>
 
 
-      {/* Bottom section */}
+      {/* Settings only; intentionally no decorative system-status panel */}
       <div className="p-4 border-t border-green-900">
-
-        <div className="mb-3 px-4 py-3 rounded-xl bg-[#084F32]">
-
-          <p className="text-xs text-green-300">
-            System Status
-          </p>
-
-          <div className="flex items-center gap-2 mt-2">
-
-            <span className="w-2 h-2 rounded-full bg-lime-400"></span>
-
-            <span className="text-xs text-green-100">
-              AI Services Online
-            </span>
-
-          </div>
-
-        </div>
-
-
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-green-100 hover:bg-[#084F32] transition">
-          <span>⚙</span>
-          <span className="text-sm">Settings</span>
-        </button>
-
+        <NavLink to="/settings" className="flex items-center gap-3 px-4 py-3 rounded-xl text-green-100 hover:bg-[#084F32] transition">
+          <span>⚙</span><span className="text-sm">{hi ? "सेटिंग्स" : "Settings"}</span>
+        </NavLink>
+        <NavLink to="/" className="flex items-center gap-3 px-4 py-3 rounded-xl text-green-100 hover:bg-[#084F32] transition">
+          <span>↗</span><span className="text-sm">{hi ? "मुख्य पृष्ठ पर जाएँ" : "Visit homepage"}</span>
+        </NavLink>
       </div>
-
     </aside>
   );
 }

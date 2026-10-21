@@ -1,3 +1,4 @@
+import { useLanguage } from "../LanguageContext";
 import { useState } from "react";
 
 const cropData = {
@@ -47,6 +48,8 @@ const cropData = {
 };
 
 function CropHealth() {
+  const { language } = useLanguage();
+  const hi = language === "hi";
   const [selectedCrop, setSelectedCrop] = useState("Tomato");
 
   const crop = cropData[selectedCrop];
@@ -78,7 +81,7 @@ function CropHealth() {
       {/* Header */}
       <div>
         <h1 className="text-2xl md:text-3xl font-bold text-[#063B25]">
-          Crop Health
+          {hi ? "फसल स्वास्थ्य" : "Crop Health"}
         </h1>
 
         <p className="text-sm text-gray-500 mt-1">
