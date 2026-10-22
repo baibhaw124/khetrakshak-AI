@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useLanguage } from "../LanguageContext";
 
 function Sidebar() {
@@ -18,10 +18,9 @@ function Sidebar() {
   return (
     <aside className="hidden md:flex w-64 min-h-screen bg-[#063B25] text-white flex-col shadow-xl">
 
-      import {Link} from "react-router-dom";
       {/* Logo */}
       <Link to="/" aria-label="Go to Khetrakshak AI homepage">
-        {<div className="px-6 py-6 border-b border-green-900">
+        <div className="px-6 py-6 border-b border-green-900">
 
           <div className="flex items-center gap-3">
 
@@ -42,7 +41,7 @@ function Sidebar() {
 
           </div>
 
-        </div>}
+        </div>
       </Link>
 
       {/* Navigation */}
@@ -67,7 +66,6 @@ function Sidebar() {
                 }`
               }
             >
-
               <span className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 text-sm font-semibold">
                 {item.icon}
               </span>
@@ -77,13 +75,9 @@ function Sidebar() {
               </span>
 
             </NavLink>
-
           ))}
-
         </div>
-
       </nav>
-
 
       {/* Settings only; intentionally no decorative system-status panel */}
       <div className="p-4 border-t border-green-900">
@@ -97,5 +91,4 @@ function Sidebar() {
     </aside>
   );
 }
-
 export default Sidebar;
