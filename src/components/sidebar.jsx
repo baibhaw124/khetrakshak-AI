@@ -18,30 +18,32 @@ function Sidebar() {
   return (
     <aside className="hidden md:flex w-64 min-h-screen bg-[#063B25] text-white flex-col shadow-xl">
 
+      import {Link} from "react-router-dom";
       {/* Logo */}
-      <div className="px-6 py-6 border-b border-green-900">
+      <Link to="/" aria-label="Go to Khetrakshak AI homepage">
+        {<div className="px-6 py-6 border-b border-green-900">
 
-        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3">
 
-          <div className="w-11 h-11 rounded-xl bg-[#D9F99D] flex items-center justify-center">
-            <span className="text-[#075E35] text-2xl font-bold" aria-hidden="true">ख</span>
+            <div className="w-11 h-11 rounded-xl bg-[#D9F99D] flex items-center justify-center">
+              <span className="text-[#075E35] text-2xl font-bold" aria-hidden="true">ख</span>
+            </div>
+
+            <div>
+              <h1 className="text-xl font-bold tracking-tight">
+                {hi ? "खेत रक्षक" : "Khetrakshak"}
+                <span className="text-lime-300"> AI</span>
+              </h1>
+
+              <p className="text-[11px] text-green-200 mt-1">
+                {hi ? "फसल स्वास्थ्य · समझदार खेती" : "Crop Health Intelligence"}
+              </p>
+            </div>
+
           </div>
 
-          <div>
-            <h1 className="text-xl font-bold tracking-tight">
-              {hi ? "खेत रक्षक" : "Khetrakshak"}
-              <span className="text-lime-300"> AI</span>
-            </h1>
-
-            <p className="text-[11px] text-green-200 mt-1">
-              {hi ? "फसल स्वास्थ्य · समझदार खेती" : "Crop Health Intelligence"}
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-
+        </div>}
+      </Link>
 
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6">
