@@ -545,7 +545,7 @@ State is used for information such as:
 
 -   📷 Uploaded image
 -   📁 Selected file
--   ⏳ Loading state
+-   ⏳ Loading stateGet-ChildItem
 -   🧠 Disease result
 -   🌾 Crop selection
 -   🌐 Language selection

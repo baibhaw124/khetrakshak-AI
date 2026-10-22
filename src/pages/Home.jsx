@@ -57,10 +57,10 @@ const copy = {
 };
 
 const featureIcons = [
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C11 4 5 7 5 14c0 3 2 5 5 5 7 0 10-6 10-15Z"/><path d="M3 21c3-6 7-9 13-12"/></svg>,
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18h12a4 4 0 0 0 .2-8A6.5 6.5 0 0 0 6 9a4.5 4.5 0 0 0 0 9Z"/><path d="m9 21 2-3m3 3 2-3"/></svg>,
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>,
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6m-5 3h4M8 14a7 7 0 1 1 8 0c-1 .7-1.5 1.5-1.5 2.5h-5C9.5 15.5 9 14.7 8 14Z"/></svg>,
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C11 4 5 7 5 14c0 3 2 5 5 5 7 0 10-6 10-15Z" /><path d="M3 21c3-6 7-9 13-12" /></svg>,
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18h12a4 4 0 0 0 .2-8A6.5 6.5 0 0 0 6 9a4.5 4.5 0 0 0 0 9Z" /><path d="m9 21 2-3m3 3 2-3" /></svg>,
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>,
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6m-5 3h4M8 14a7 7 0 1 1 8 0c-1 .7-1.5 1.5-1.5 2.5h-5C9.5 15.5 9 14.7 8 14Z" /></svg>,
 ];
 
 const featurePaths = ["/disease-detection", "/crop-health", "/risk-map", "/farmer-advisory"];
@@ -76,7 +76,7 @@ export default function Home() {
     <div className="kh-home" lang={language === "hi" ? "hi" : "en"}>
       <header className="kh-header">
         <Link to="/" className="kh-brand" aria-label="Khetrakshak AI home">
-          <span className="kh-brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34V16M20 24C8 24 5 15 6 7c9 0 15 5 14 17ZM21 18C21 8 28 4 35 5c0 9-5 14-14 13ZM13 33h14"/></svg></span>
+          <span className="kh-brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34V16M20 24C8 24 5 15 6 7c9 0 15 5 14 17ZM21 18C21 8 28 4 35 5c0 9-5 14-14 13ZM13 33h14" /></svg></span>
           <span><strong>{language === "hi" ? "खेत रक्षक" : "Khetrakshak"}<i> AI</i></strong><small>{language === "hi" ? "फसल स्वास्थ्य, समृद्ध किसान" : "Crop health. Stronger farmers."}</small></span>
         </Link>
 
@@ -93,7 +93,19 @@ export default function Home() {
 
         <div className="kh-header-actions">
           <div className="kh-language" role="group" aria-label={language === "hi" ? "भाषा चुनें" : "Choose language"}><button type="button" className={`kh-language-option ${language === "hi" ? "is-selected" : ""}`} onClick={() => setLanguage("hi")} aria-pressed={language === "hi"}>हिन्दी</button><span className="kh-language-divider" aria-hidden="true"></span><button type="button" className={`kh-language-option ${language === "en" ? "is-selected" : ""}`} onClick={() => setLanguage("en")} aria-pressed={language === "en"}>EN</button></div>
-          <Link className="kh-login" to="/dashboard">{t.login}</Link>
+          <button
+            type="button"
+            className="kh-login"
+            onClick={() =>
+              window.alert(
+                language === "hi"
+                  ? "लॉगिन सुविधा जल्द उपलब्ध होगी।"
+                  : "Login will be available soon."
+              )
+            }
+          >
+            {t.login}
+          </button>
           <Link className="kh-start" to="/disease-detection">{t.start}<span aria-hidden="true"> ↗</span></Link>
         </div>
       </header>

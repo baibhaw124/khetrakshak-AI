@@ -51,7 +51,31 @@ function Topbar() {
           <button onClick={() => setLanguage("en")} aria-pressed={!hi} className={`rounded-full px-3 py-2 font-semibold transition ${!hi ? "bg-green-100 text-green-900" : "text-gray-600 hover:bg-gray-50"}`}>EN</button>
         </div>
         <button aria-label={hi ? "सूचनाएँ" : "Notifications"} className="relative w-10 h-10 rounded-xl border border-gray-200 bg-white hover:bg-[#F4F8F5] flex items-center justify-center">♧<span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 border-2 border-white" /></button>
-        <div className="flex items-center gap-3 pl-3 border-l border-gray-200"><div className="w-10 h-10 rounded-full bg-[#D9F99D] flex items-center justify-center text-[#063B25] font-bold">{hi ? "कृ" : "AO"}</div><div className="hidden sm:block"><p className="text-sm font-semibold text-gray-800">{hi ? "कृषि अधिकारी" : "Agriculture Officer"}</p><p className="text-xs text-gray-500">{hi ? "व्यवस्थापक" : "Administrator"}</p></div></div>
+        <button
+          type="button"
+          onClick={() =>
+            window.alert(
+              hi
+                ? "कृषि अधिकारी सुविधा जल्द उपलब्ध होगी।"
+                : "Agriculture Officer features are coming soon."
+            )
+          }
+          className="flex items-center gap-3 pl-3 border-l border-gray-200 text-left rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600"
+          aria-label={hi ? "कृषि अधिकारी सुविधा" : "Agriculture Officer options"}
+        >
+          <div className="w-10 h-10 rounded-full bg-[#D9F99D] flex items-center justify-center text-[#063B25] font-bold">
+            {hi ? "कृ" : "AO"}
+          </div>
+
+          <div className="hidden sm:block">
+            <p className="text-sm font-semibold text-gray-800">
+              {hi ? "कृषि अधिकारी" : "Agriculture Officer"}
+            </p>
+            <p className="text-xs text-gray-500">
+              {hi ? "व्यवस्थापक" : "Administrator"}
+            </p>
+          </div>
+        </button>
       </div>
     </header>
   );

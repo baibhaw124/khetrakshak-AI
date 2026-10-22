@@ -1,6 +1,69 @@
 import { useLanguage } from "../LanguageContext";
 import { useState } from "react";
 
+const resultTranslations = {
+  disease: {
+    Early_blight: "अगेती झुलसा (Early Blight)",
+    Late_blight: "पछेती झुलसा (Late Blight)",
+    healthy: "स्वस्थ (Healthy)",
+    Healthy: "स्वस्थ (Healthy)",
+    Leaf_Mold: "पत्ती फफूंद रोग (Leaf Mold)",
+    Septoria_leaf_spot: "सेप्टोरिया पत्ती धब्बा रोग",
+    Tomato___Early_blight: "टमाटर में अगेती झुलसा",
+  },
+  crop: {
+    Tomato: "टमाटर",
+    Potato: "आलू",
+    Corn: "मक्का",
+    Apple: "सेब",
+    Grape: "अंगूर",
+    Pepper: "मिर्च",
+    Strawberry: "स्ट्रॉबेरी",
+    Peach: "आड़ू",
+    Cherry: "चेरी",
+    Blueberry: "ब्लूबेरी",
+    Orange: "संतरा",
+    Soybean: "सोयाबीन",
+    Squash: "स्क्वैश",
+    Raspberry: "रास्पबेरी",
+  },
+  severity: {
+    Low: "कम",
+    Medium: "मध्यम",
+    High: "अधिक",
+  },
+  risk: {
+    Low: "कम जोखिम",
+    Medium: "मध्यम जोखिम",
+    High: "उच्च जोखिम",
+  },
+  recommendations: {
+    "Remove severely affected foliage where practical.":
+      "जहाँ संभव हो, रोग से बहुत अधिक प्रभावित पत्तियों को हटा दें।",
+    "Manage crop debris.":
+      "फसल के अवशेषों का उचित प्रबंधन करें।",
+    "Avoid prolonged leaf wetness.":
+      "पत्तियों को लंबे समय तक गीला रहने से बचाएँ।",
+    "Follow locally approved disease-management guidance.":
+      "स्थानीय कृषि विशेषज्ञों द्वारा स्वीकृत रोग-प्रबंधन निर्देशों का पालन करें।",
+    "Practice crop rotation.":
+      "फसल चक्र अपनाएँ।",
+    "Use healthy planting material.":
+      "स्वस्थ बीज या रोपण सामग्री का उपयोग करें।",
+    "Maintain field sanitation.":
+      "खेत में स्वच्छता बनाए रखें।",
+  },
+};
+function translateResult(value, category, hi) {
+  if (value == null) return "";
+  if (!hi) return String(value);
+
+  const dictionary = resultTranslations[category] || {};
+  const key = String(value).trim();
+
+  return dictionary[key] || key.replaceAll("_", " ");
+}
+
 function DiseaseDetection() {
   const { language } = useLanguage();
   const hi = language === "hi";
@@ -21,50 +84,90 @@ function DiseaseDetection() {
     setResult(null);
   };
 
-  const analyzeImage = async () => {
-    if (!selectedFile) return;
 
-    const file = selectedFile;
+  const analyzeImage = async () => {
+    if (!selectedFile || analyzing) return;
 
     setAnalyzing(true);
     setResult(null);
 
+    const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, "");
+
+    if (!API_URL) {
+      alert(
+        hi
+          ? "API URL कॉन्फ़िगर नहीं है।"
+          : "The API URL is not configured."
+      );
+      setAnalyzing(false);
+      return;
+    }
+
+    const wait = (ms) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
     try {
-      const formData = new FormData();
+      let response;
+      let lastError;
 
-      formData.append("file", file);
+      // Retry transient gateway/network failures up to 3 attempts.
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          const formData = new FormData();
+          formData.append("file", selectedFile);
 
-      const API_URL = import.meta.env.VITE_API_URL;
+          response = await fetch(`${API_URL}/disease/analyze`, {
+            method: "POST",
+            body: formData,
+          });
 
-      if (!API_URL) {
-        throw new Error(hi ? "VITE_API_URL कॉन्फ़िगर नहीं है।" : "VITE_API_URL is not configured");
+          // Retry only temporary server/gateway errors.
+          if (response.status >= 500 && attempt < 2) {
+            await wait(2000 * (attempt + 1));
+            continue;
+          }
+
+          break;
+        } catch (error) {
+          lastError = error;
+
+          if (attempt < 2) {
+            await wait(2000 * (attempt + 1));
+          }
+        }
       }
 
-      const response = await fetch(
-        `${API_URL}/disease/analyze`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      if (!response) {
+        throw lastError || new Error("Network request failed");
+      }
 
       if (!response.ok) {
-        let errorMessage = hi ? "फसल की जाँच विफल रही।" : "Disease analysis failed.";
+        let detail = "";
 
         try {
           const errorData = await response.json();
-
-          if (errorData?.detail) {
-            errorMessage =
-              typeof errorData.detail === "string"
-                ? errorData.detail
-                : hi ? "सर्वर इस तस्वीर को स्वीकार नहीं कर पाया।" : "The backend rejected the image.";
-          }
+          detail =
+            typeof errorData?.detail === "string"
+              ? errorData.detail
+              : "";
         } catch {
-          // Backend did not return JSON
+          // The gateway may return non-JSON content.
         }
 
-        throw new Error(errorMessage);
+        if (response.status >= 500) {
+          throw new Error(
+            hi
+              ? "सर्वर अभी व्यस्त है। कृपया कुछ देर बाद दोबारा प्रयास करें।"
+              : "The server is temporarily unavailable. Please try again shortly."
+          );
+        }
+
+        throw new Error(
+          detail ||
+          (hi
+            ? "तस्वीर की जाँच नहीं हो सकी। कृपया दूसरी तस्वीर आज़माएँ।"
+            : "Image analysis failed. Please try another image.")
+        );
       }
 
       const data = await response.json();
@@ -73,11 +176,11 @@ function DiseaseDetection() {
         setResult({
           rejected: true,
           message:
-            data.message ||
-              hi ? "कृपया पौधे की पत्ती की साफ़ तस्वीर अपलोड करें।" : "Please upload a clear image of a plant leaf.",
+            hi
+              ? "कृपया पौधे की पत्ती की साफ़ तस्वीर अपलोड करें।"
+              : "Please upload a clear image of a plant leaf.",
           confidence: Number(data.confidence ?? 0),
         });
-
         return;
       }
 
@@ -96,14 +199,15 @@ function DiseaseDetection() {
       console.error("Disease analysis error:", error);
 
       alert(
-        error?.message ||
-          hi ? "खेत रक्षक AI सर्वर से संपर्क नहीं हो पाया।" : "Unable to connect to the Khetrakshak AI backend."
+        hi
+          ? "खेत रक्षक AI सर्वर से संपर्क नहीं हो पाया। कृपया सर्वर के तैयार होने के बाद दोबारा प्रयास करें।"
+          : "Unable to reach the Khetrakshak AI server. Please retry when the server is ready."
       );
-
     } finally {
       setAnalyzing(false);
     }
   };
+
 
   return (
     <div className="space-y-6">
@@ -312,8 +416,12 @@ function DiseaseDetection() {
               {/* KEEP EVERYTHING FROM HERE EXACTLY AS IT IS */}
 
               {/* Disease */}
-              <div className="rounded-xl bg-red-50 p-5">
-
+              <div
+                className={`rounded-xl p-5 ${result.disease?.toLowerCase().includes("healthy")
+                  ? "bg-green-50 border border-green-200"
+                  : "bg-red-50 border border-red-200"
+                  }`}
+              >
                 <div className="flex items-center justify-between">
 
                   <div>
@@ -321,30 +429,41 @@ function DiseaseDetection() {
                       {hi ? "पहचाना गया रोग" : "Detected Disease"}
                     </p>
 
-                    <h3 className="mt-1 text-2xl font-bold text-red-700">
-                      {result.disease}
+                    <h3
+                      className={`mt-1 text-2xl font-bold ${result.disease?.toLowerCase().includes("healthy")
+                        ? "text-green-700"
+                        : "text-red-700"
+                        }`}
+                    >
+                      {translateResult(result.disease, "disease", hi)}
                     </h3>
 
                     <p className="mt-1 text-sm text-gray-500">
-                      {hi ? "फसल:" : "Crop:"} {result.crop}
+                      {hi ? "फसल:" : "Crop:"} {translateResult(result.crop, "crop", hi)}
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
 
                       <span className="rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-600">
-                        {hi ? "फसल:" : "Crop:"} {result.crop}
+                        {hi ? "फसल:" : "Crop:"} {translateResult(result.crop, "crop", hi)}
                       </span>
 
                       <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
-                        {hi ? "गंभीरता:" : "Severity:"} {result.severity}
+                        {hi ? "गंभीरता:" : "Severity:"} {translateResult(result.severity, "severity", hi)}
                       </span>
 
                     </div>
                   </div>
 
-                  <div className="rounded-full bg-red-100 px-4 py-2 text-sm font-bold text-red-700">
-                    {hi ? (result.risk === "High" ? "उच्च जोखिम" : result.risk === "Medium" ? "मध्यम जोखिम" : "कम जोखिम") : `${result.risk} Risk`}
+                  <div
+                    className={`rounded-full px-4 py-2 text-sm font-bold ${result.disease?.toLowerCase().includes("healthy")
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                      }`}
+                  >
+                    {hi
+                      ? translateResult(result.risk, "risk", true)
+                      : `${result.risk} Risk`}
                   </div>
-
                 </div>
 
               </div>
@@ -354,7 +473,7 @@ function DiseaseDetection() {
 
                 <div>
                   <p className="text-sm font-semibold text-gray-700">
-                   {hi ? "AI पहचान का विश्वास स्तर" : "AI Detection Confidence"}
+                    {hi ? "AI पहचान का विश्वास स्तर" : "AI Detection Confidence"}
                   </p>
 
                   <p className="text-xs text-gray-400 mt-0.5">
@@ -412,7 +531,7 @@ function DiseaseDetection() {
                         ✓
                       </span>
 
-                      <span>{item}</span>
+                      <span>{translateResult(item, "recommendations", hi)}</span>
                     </div>
                   ))}
 
