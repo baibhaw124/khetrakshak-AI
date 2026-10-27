@@ -164,7 +164,15 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="kh-footer"><Link to="/" className="kh-footer-brand">✳ {language === "hi" ? "खेत रक्षक" : "Khetrakshak"} <i>AI</i></Link><span>{t.footer}</span><a href="#home">{language === "hi" ? "ऊपर जाएँ ↑" : "Back to top ↑"}</a></footer>
+      <footer className="kh-footer">
+        <Link to="/" className="kh-footer-brand">✳ {language === "hi" ? "खेत रक्षक" : "Khetrakshak"} <i>AI</i></Link>
+        <span>{t.footer}</span>
+        <nav className="flex flex-wrap items-center gap-4" aria-label={language === "hi" ? "कानूनी लिंक" : "Legal links"}>
+          <Link to="/terms" className="text-green-800 hover:underline">{language === "hi" ? "नियम और शर्तें" : "Terms"}</Link>
+          <Link to="/privacy-policy" className="text-green-800 hover:underline">{language === "hi" ? "गोपनीयता नीति" : "Privacy Policy"}</Link>
+          <a href="#home">{language === "hi" ? "ऊपर जाएँ ↑" : "Back to top ↑"}</a>
+        </nav>
+      </footer>
     </div>
   );
 }

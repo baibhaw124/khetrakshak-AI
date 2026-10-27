@@ -8,6 +8,8 @@ import RiskMap from "./pages/RiskMap";
 import Alerts from "./pages/Alerts";
 import FarmerAdvisory from "./pages/FarmerAdvisory";
 import Analytics from "./pages/Analytics";
+import Terms from "./pages/Terms";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import { LanguageProvider } from "./LanguageContext";
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/dashboard" element={<MainLayout><Dashboard /></MainLayout>} />
         <Route path="/crop-health" element={<MainLayout><CropHealth /></MainLayout>} />
         <Route path="/disease-detection" element={<MainLayout><DiseaseDetection /></MainLayout>} />

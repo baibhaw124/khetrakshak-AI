@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useLanguage } from "../LanguageContext";
 import { useState } from "react";
 
@@ -71,11 +72,23 @@ function DiseaseDetection() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState(null);
+  const [processingConsent, setProcessingConsent] = useState(false);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
 
     if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert(hi ? "कृपया एक छवि फ़ाइल चुनें।" : "Please choose an image file.");
+      event.target.value = "";
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      alert(hi ? "कृपया 10 MB से छोटी तस्वीर चुनें।" : "Please choose an image smaller than 10 MB.");
+      event.target.value = "";
+      return;
+    }
 
     const imageUrl = URL.createObjectURL(file);
 
@@ -87,6 +100,10 @@ function DiseaseDetection() {
 
   const analyzeImage = async () => {
     if (!selectedFile || analyzing) return;
+    if (!processingConsent) {
+      alert(hi ? "आगे बढ़ने के लिए तस्वीर के प्रसंस्करण की सहमति दें।" : "Please acknowledge image processing before continuing.");
+      return;
+    }
 
     setAnalyzing(true);
     setResult(null);
@@ -328,7 +345,7 @@ function DiseaseDetection() {
               {hi ? "तस्वीर चुनें" : "Choose Image"}
               <input
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp"
                 onChange={handleImageUpload}
                 disabled={analyzing}
                 className="hidden"
@@ -337,7 +354,7 @@ function DiseaseDetection() {
 
             <button
               onClick={analyzeImage}
-              disabled={!image || analyzing}
+              disabled={!image || !processingConsent || analyzing}
               className="flex-1 rounded-xl bg-emerald-100 px-4 py-3 font-medium text-emerald-800 transition hover:bg-emerald-200 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {analyzing ? (
@@ -349,6 +366,28 @@ function DiseaseDetection() {
                 hi ? "जाँच शुरू करें" : "Analyze Crop"
               )}
             </button>
+          </div>
+
+          <div className="mt-4 rounded-xl border border-green-100 bg-green-50/70 p-3">
+            <label className="flex cursor-pointer items-start gap-3 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                checked={processingConsent}
+                onChange={(event) => setProcessingConsent(event.target.checked)}
+                disabled={analyzing}
+                className="mt-1 h-4 w-4 shrink-0 accent-green-700"
+              />
+              <span>
+                {hi
+                  ? "मैं सहमत हूँ कि चुनी गई तस्वीर AI विश्लेषण के लिए सर्वर पर भेजी और अस्थायी रूप से संसाधित की जाएगी। वर्तमान प्रक्रिया में इसे विश्लेषण के बाद हटाया जाता है।"
+                  : "I understand that my selected image will be sent to the server for AI analysis and processed temporarily. Under the current processing flow, the image is deleted after analysis."}
+                {" "}<Link to="/privacy-policy" className="font-semibold text-green-800 underline underline-offset-2">{hi ? "गोपनीयता नीति" : "Privacy Policy"}</Link>
+                {" · "}<Link to="/terms" className="font-semibold text-green-800 underline underline-offset-2">{hi ? "नियम और शर्तें" : "Terms"}</Link>
+              </span>
+            </label>
+            <p className="mt-2 pl-7 text-xs leading-5 text-gray-500">
+              {hi ? "केवल JPG, PNG या WEBP; अधिकतम 10 MB।" : "JPG, PNG, or WEBP only; 10 MB maximum."}
+            </p>
           </div>
 
         </div>
