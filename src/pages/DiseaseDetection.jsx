@@ -1,3 +1,4 @@
+import usePageSEO from "../usePageSEO";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../LanguageContext";
 import { useState } from "react";
@@ -66,6 +67,7 @@ function translateResult(value, category, hi) {
 }
 
 function DiseaseDetection() {
+  usePageSEO("disease");
   const { language } = useLanguage();
   const hi = language === "hi";
   const [image, setImage] = useState(null);

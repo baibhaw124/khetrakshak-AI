@@ -1,6 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://khetrakshak-ai.vercel.app/</loc>
+  </url>
+  <url>
+    <loc>https://khetrakshak-ai.vercel.app/disease-detection</loc>
+  </url>
+  <url>
+    <loc>https://khetrakshak-ai.vercel.app/crop-health</loc>
+  </url>
+  <url>
+    <loc>https://khetrakshak-ai.vercel.app/farmer-advisory</loc>
+  </url>
+  <url>
+    <loc>https://khetrakshak-ai.vercel.app/risk-map</loc>
+  </url>
+  <url>
+    <loc>https://khetrakshak-ai.vercel.app/terms</loc>
+  </url>
+  <url>
+    <loc>https://khetrakshak-ai.vercel.app/privacy-policy</loc>
   </url>
 </urlset>

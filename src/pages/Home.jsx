@@ -1,3 +1,4 @@
+import usePageSEO from "../usePageSEO";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../LanguageContext";
@@ -71,7 +72,7 @@ export default function Home() {
   const t = copy[language];
 
   const scrollToSolutions = () => document.getElementById("solutions")?.scrollIntoView({ behavior: "smooth" });
-
+  usePageSEO("home");
   return (
     <div className="kh-home" lang={language === "hi" ? "hi" : "en"}>
       <header className="kh-header">
