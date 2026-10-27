@@ -65,7 +65,7 @@ function Dashboard() {
 
 
   return (
-    <div className="space-y-6">
+    <div className="min-w-0 w-full max-w-full space-y-6">
 
       {/* Page Heading */}
       <div>
@@ -80,8 +80,7 @@ function Dashboard() {
 
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-
+      <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => (
 
           <div
@@ -166,8 +165,7 @@ function Dashboard() {
 
       </div>
       {/* Charts Section */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-
+      <div className="grid min-w-0 grid-cols-1 gap-6 xl:grid-cols-2">
         {/* Risk Overview */}
         <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
 

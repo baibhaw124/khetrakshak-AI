@@ -35,7 +35,25 @@ function Topbar() {
 
   return (
     <header className="sticky top-0 z-30 min-h-20 bg-white/90 backdrop-blur-md border-b border-gray-200/80 flex flex-wrap items-center justify-between gap-3 px-4 md:px-6 lg:px-8">
-      <div><h2 className="text-lg font-semibold text-[#063B25]">{hi ? "खेत रक्षक AI" : "Khetrakshak AI"}</h2><p className="text-sm text-gray-500 mt-0.5">{hi ? "फसल स्वास्थ्य निगरानी और जोखिम आकलन" : "Intelligent Crop Health Monitoring & Risk Assessment"}</p></div>
+
+      <div>
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="text-left rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+          aria-label={hi ? "मुख्य पृष्ठ पर जाएँ" : "Go to homepage"}
+        >
+          <h2 className="text-lg font-semibold text-[#063B25]">
+            {hi ? "खेत रक्षक AI" : "Khetrakshak AI"}
+          </h2>
+          <p className="text-sm text-gray-500 mt-0.5">
+            {hi
+              ? "फसल स्वास्थ्य निगरानी और जोखिम आकलन"
+              : "Intelligent Crop Health Monitoring & Risk Assessment"}
+          </p>
+        </button>
+      </div>
+
       <div className="flex items-center gap-3">
         <div className="relative hidden lg:block w-60 xl:w-72">
           <div className="flex items-center h-10 bg-[#F4F8F5] border border-gray-200 rounded-xl px-3 focus-within:border-green-600 focus-within:ring-2 focus-within:ring-green-100">

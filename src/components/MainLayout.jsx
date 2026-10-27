@@ -38,7 +38,22 @@ function MainLayout({ children }) {
           {menuOpen && (
             <div className="border-t border-gray-100 bg-white px-3 pb-3 pt-2 shadow-md">
 
+
               <div className="space-y-1">
+
+                {/* Home */}
+                <NavLink
+                  to="/"
+                  onClick={() => setMenuOpen(false)}
+                  className={({ isActive }) =>
+                    `block rounded-lg px-4 py-3 text-sm font-medium ${isActive
+                      ? "bg-[#075E35] text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                    }`
+                  }
+                >
+                  {hi ? "⌂ मुख्य पृष्ठ" : "⌂ Home"}
+                </NavLink>
 
                 <NavLink
                   to="/dashboard"
