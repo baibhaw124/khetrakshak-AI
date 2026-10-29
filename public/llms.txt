@@ -1,0 +1,43 @@
+
+# Khetrakshak AI
+
+> Khetrakshak AI (खेत रक्षक AI) is a bilingual agricultural web project focused on AI-assisted crop disease identification from leaf images, crop health information, crop-risk visualization, and farmer crop-care guidance.
+
+## Main pages
+
+- [Homepage](https://khetrakshak-ai.vercel.app/): Overview of the project and its features.
+- [Crop disease detection](https://khetrakshak-ai.vercel.app/disease-detection): Upload a plant-leaf image to check for a possible disease classification.
+- [Crop health](https://khetrakshak-ai.vercel.app/crop-health): Crop-health indicators and monitoring information.
+- [Farmer advisory](https://khetrakshak-ai.vercel.app/farmer-advisory): General crop-care, irrigation, fertilizer, and disease-prevention guidance.
+- [Crop risk map](https://khetrakshak-ai.vercel.app/risk-map): Demonstration visualization of crop-health risk zones.
+- [Privacy policy](https://khetrakshak-ai.vercel.app/privacy-policy): Privacy information.
+- [Terms](https://khetrakshak-ai.vercel.app/terms): Terms of use.
+
+## Topics
+
+- AI crop disease detection
+- Crop disease detection from an image
+- Upload a plant leaf photo to identify a possible disease
+- Plant disease identification from leaf images
+- Crop health monitoring and crop-care guidance
+- फसल रोग की पहचान
+- पौधे की फोटो से बीमारी पहचानें
+- पत्ते की तस्वीर से रोग पहचानें
+- फसल की बीमारी कैसे पहचानें
+- फसल की देखभाल और रोगों से बचाव
+
+## Languages
+
+The website supports English and Hindi interface content.
+
+## Important limitations
+
+- Image-based results are potential classifications, not guaranteed diagnoses.
+- Verify important crop-health decisions with qualified local agricultural experts and locally approved guidance.
+- Some crop-health, advisory, and risk-map information may be illustrative or demonstration data rather than live field measurements.
+- Do not assume that the site provides real-time weather, live regional disease surveillance, or treatment recommendations unless those capabilities are explicitly confirmed.
+
+## Site discovery
+
+- [XML sitemap](https://khetrakshak-ai.vercel.app/sitemap.xml)
+- [Robots.txt](https://khetrakshak-ai.vercel.app/robots.txt)
