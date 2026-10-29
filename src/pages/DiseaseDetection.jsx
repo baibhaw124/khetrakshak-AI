@@ -448,6 +448,7 @@ function DiseaseDetection() {
                 </p>
 
               </div>
+
             </div>
 
           ) : (
@@ -497,8 +498,8 @@ function DiseaseDetection() {
 
                   <div
                     className={`rounded-full px-4 py-2 text-sm font-bold ${result.disease?.toLowerCase().includes("healthy")
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
                       }`}
                   >
                     {hi
@@ -652,6 +653,122 @@ function DiseaseDetection() {
         </div>
 
       </div>
+
+      {/* SEO Content: Crop Disease Detection */}
+      <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm space-y-5">
+        <div>
+          <h2 className="text-xl font-bold text-gray-800">
+            {hi
+              ? "पौधे की फोटो से रोग पहचानें"
+              : "AI Crop Disease Detection from a Leaf Photo"}
+          </h2>
+          <p className="mt-3 leading-7 text-gray-600">
+            {hi
+              ? "खेत रक्षक AI की मदद से पौधे की पत्ती की तस्वीर का विश्लेषण करके संभावित फसल रोग की पहचान करने में सहायता पाएँ। साफ़ तस्वीर अपलोड करें और उपलब्ध विश्लेषण परिणाम देखें। पहचान का परिणाम संभावित अनुमान है, इसलिए ज़रूरत पड़ने पर कृषि विशेषज्ञ से सलाह लें।"
+              : "Use Khetrakshak AI to analyze a crop leaf photo and check for potential plant diseases. Upload a clear image to view the available analysis. Results are potential identifications, not a guaranteed diagnosis, so consult an agricultural expert when needed."}
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-lg font-semibold text-gray-800">
+            {hi
+              ? "फोटो से फसल की बीमारी कैसे पहचानें?"
+              : "How to Detect Crop Disease from a Photo"}
+          </h2>
+          <ol className="mt-3 list-decimal space-y-2 pl-6 leading-7 text-gray-600">
+            <li>
+              {hi
+                ? "प्रभावित पत्ती की साफ़ और रोशनी में ली गई तस्वीर चुनें।"
+                : "Choose a clear, well-lit photo of the affected leaf."}
+            </li>
+            <li>
+              {hi
+                ? "ऊपर दिए गए विकल्प से JPG, PNG या WEBP तस्वीर अपलोड करें।"
+                : "Upload a JPG, PNG, or WEBP image using the upload control above."}
+            </li>
+            <li>
+              {hi
+                ? "तस्वीर के विश्लेषण की सहमति दें और जाँच शुरू करें।"
+                : "Acknowledge image processing and start the analysis."}
+            </li>
+            <li>
+              {hi
+                ? "परिणाम देखें और उचित रोग-प्रबंधन के लिए विशेषज्ञ की सलाह लें।"
+                : "Review the result and seek expert advice for appropriate disease management."}
+            </li>
+          </ol>
+        </div>
+
+        <div>
+          <h2 className="text-lg font-semibold text-gray-800">
+            {hi ? "बेहतर परिणाम के लिए सुझाव" : "Tips for a Better Leaf Photo"}
+          </h2>
+          <ul className="mt-3 list-disc space-y-2 pl-6 leading-7 text-gray-600">
+            <li>
+              {hi
+                ? "पत्ती और उस पर मौजूद धब्बे साफ़ दिखाई देने चाहिए।"
+                : "Keep the leaf and any visible spots in focus."}
+            </li>
+            <li>
+              {hi
+                ? "धुंधली या बहुत अंधेरी तस्वीरों से बचें।"
+                : "Avoid blurry or very dark images."}
+            </li>
+            <li>
+              {hi
+                ? "सही पहचान के लिए फसल, मौसम और खेत की स्थिति भी महत्वपूर्ण हैं।"
+                : "Crop type, weather, and field conditions also matter when identifying a disease."}
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="text-lg font-semibold text-gray-800">
+            {hi ? "अक्सर पूछे जाने वाले प्रश्न" : "Frequently Asked Questions"}
+          </h2>
+
+          <div className="mt-3 space-y-4">
+            <div>
+              <h3 className="font-semibold text-gray-800">
+                {hi
+                  ? "क्या मैं पौधे की फोटो अपलोड करके रोग पहचान सकता हूँ?"
+                  : "Can I identify a plant disease by uploading a photo?"}
+              </h3>
+              <p className="mt-1 leading-7 text-gray-600">
+                {hi
+                  ? "हाँ, आप पत्ती की तस्वीर अपलोड करके उपलब्ध AI विश्लेषण से संभावित रोग की पहचान कर सकते हैं। परिणाम तस्वीर की गुणवत्ता और मॉडल की क्षमताओं पर निर्भर करता है।"
+                  : "You can upload a leaf photo for AI-assisted analysis of potential diseases. Results depend on image quality and the model's capabilities."}
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-gray-800">
+                {hi
+                  ? "कौन-से फोटो फ़ॉर्मेट समर्थित हैं?"
+                  : "Which image formats are supported?"}
+              </h3>
+              <p className="mt-1 leading-7 text-gray-600">
+                {hi
+                  ? "JPG, PNG और WEBP तस्वीरें अपलोड की जा सकती हैं। फ़ाइल का आकार 10 MB से अधिक नहीं होना चाहिए।"
+                  : "JPG, PNG, and WEBP images are supported, with a maximum file size of 10 MB."}
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-gray-800">
+                {hi
+                  ? "क्या AI का परिणाम अंतिम निदान है?"
+                  : "Is the AI result a definitive diagnosis?"}
+              </h3>
+              <p className="mt-1 leading-7 text-gray-600">
+                {hi
+                  ? "नहीं। इसे शुरुआती जानकारी के रूप में लें। उपचार तय करने से पहले कृषि विशेषज्ञ से सलाह लें।"
+                  : "No. Treat it as preliminary information and consult an agricultural expert before deciding on treatment."}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
     </div >
   );

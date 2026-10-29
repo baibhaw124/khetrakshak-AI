@@ -17,14 +17,14 @@ const pageSEO = {
   },
   disease: {
     en: {
-      title: "Crop Disease Detection with AI | Khetrakshak AI",
+      title: "Crop Disease Detection from Photo | Khetrakshak AI",
       description:
-        "Upload a crop leaf image to check for potential diseases using AI-assisted crop disease analysis.",
+        "Upload a crop leaf photo to identify potential plant diseases with AI-assisted analysis. Explore preliminary crop health insights and disease prevention guidance.",
     },
     hi: {
-      title: "AI से फसल रोग की पहचान | खेत रक्षक AI",
+      title: "पौधे की फोटो से रोग पहचानें | खेत रक्षक AI",
       description:
-        "पत्तियों की तस्वीर अपलोड करके AI की सहायता से संभावित फसल रोगों की पहचान करें।",
+        "पत्ती की साफ तस्वीर अपलोड करके AI की मदद से संभावित फसल रोग पहचानें और फसल की देखभाल व रोकथाम की शुरुआती जानकारी पाएं।",
     },
   },
   cropHealth: {
