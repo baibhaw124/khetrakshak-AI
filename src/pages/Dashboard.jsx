@@ -485,11 +485,11 @@ function Dashboard() {
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-green-600">
-              {hi ? "द्वारा विकसित" : "Developed By"}
+              {hi ? "सप्रेम बनाया" : "Made with ❤️ by"}
             </p>
 
             <h2 className="mt-1 text-xl font-bold text-[#075E35]">
-              {hi ? "(खेतरक्षक AI टीम) बैभव उपाध्याय" : "(Khetrakshak AI Team) Baibhaw Upadhyay"}
+              {hi ? "बैभव उपाध्याय" : "Baibhaw Upadhyay"}
             </h2>
 
             <p className="mt-1 text-sm text-gray-500">

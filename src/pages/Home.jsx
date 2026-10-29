@@ -159,8 +159,10 @@ export default function Home() {
         </section>
 
         <section className="kh-developer-card" aria-label={language === "hi" ? "वेबसाइट निर्माता" : "Website developer credit"}>
-          <span className="kh-developer-kicker">{language === "hi" ? "निर्माण किया" : "DEVELOPED BY"}</span>
-          <h2>{language === "hi" ? "(खेत रक्षक AI टीम) बैभव उपाध्याय" : "(Khetrakshak AI Team) Baibhaw Upadhyay"}</h2>
+          <span className="kh-developer-kicker">
+            {language === "hi" ? "सप्रेम बनाया" : "MADE WITH ❤️ BY"}
+          </span>
+          <h2>{language === "hi" ? "बैभव उपाध्याय" : "Baibhaw Upadhyay"}</h2>
           <p>{language === "hi" ? "स्मार्ट कृषि बुद्धिमत्ता और निर्णय सहायता मंच" : "Smart Agricultural Intelligence & Decision Support Platform"}</p>
         </section>
       </main>
